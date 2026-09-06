@@ -182,6 +182,7 @@ strong { font-weight: 700; }
 .experience-item { padding: 18px 20px; background: rgba(255, 255, 255, .7); border: 1px solid var(--line); border-radius: 17px; box-shadow: 0 8px 26px rgba(59, 7, 100, .045); transition: transform .24s ease, border-color .24s ease, box-shadow .24s ease; }
 .experience-item:hover { border-color: var(--purple-200); box-shadow: 0 13px 30px rgba(59, 7, 100, .09); transform: translateY(-3px); }
 .experience-item.featured { background: linear-gradient(110deg, var(--purple-50), rgba(255, 255, 255, .82)); border-color: var(--purple-200); }
+.experience-item.featured .entry-role { margin-bottom: 0; }
 .experience-item { display: grid; grid-template-columns: 42px minmax(0, 1fr); gap: 15px; align-items: start; }
 .experience-logo { width: 42px; height: 42px; padding: 5px; object-fit: contain; background: #fff; border: 1px solid var(--line); border-radius: 13px; box-shadow: 0 5px 14px rgba(59, 7, 100, .07); }
 .experience-item > div { min-width: 0; }
@@ -263,7 +264,7 @@ footer svg { width: 15px; height: 15px; }
   .timeline::before { left: 24px; }
   .timeline-item img { width: 51px; height: 51px; padding: 6px; }
   .experience-item, .project-item, .open-source-card { padding: 16px; border-radius: 15px; }
-  body { font-family: "Comic Sans MS", "Comic Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  body, button, input, textarea, select { font-family: "Comic Sans MS", "Comic Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
   .publication-figure { margin-bottom: 14px; }
   .publication-figure img { height: 145px; }
   .experience-item { grid-template-columns: 36px minmax(0, 1fr); gap: 11px; }
