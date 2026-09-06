@@ -209,6 +209,14 @@ strong { font-weight: 700; }
 .publication-figure img { width: 100%; height: 190px; object-fit: cover; object-position: center; border-radius: 11px; }
 .publication-figure span { display: flex; align-items: center; justify-content: space-between; gap: 7px; margin: 8px 3px 1px; color: var(--purple-900); font-size: 12px; font-weight: 700; }
 .publication-figure svg { flex: 0 0 auto; width: 14px; height: 14px; color: var(--purple-600); }
+.publication-card { display: grid; grid-template-columns: minmax(220px, 38%) minmax(0, 1fr); gap: 24px; align-items: center; padding: 18px; background: rgba(255, 255, 255, .58); border: 1px solid rgba(232, 229, 236, .92); border-radius: 20px; box-shadow: 0 10px 28px rgba(59, 7, 100, .045); transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+.publication-card:hover { transform: translateY(-3px); border-color: var(--purple-200); box-shadow: 0 16px 34px rgba(59, 7, 100, .09); }
+.publication-card .publication-figure { margin: 0; padding: 0; border: 0; box-shadow: none; background: transparent; }
+.publication-card .publication-figure img { height: 155px; }
+.publication-copy h3 { color: var(--purple-900); font-size: 19px; line-height: 1.35; }
+.pub-kicker { margin: 0 0 7px; color: var(--purple-700); font-size: 12px; font-weight: 700; letter-spacing: .04em; }
+.pub-authors { margin: 9px 0 0; color: var(--muted); font-size: 14px; line-height: 1.55; }
+.pub-status { margin: 11px 0 0; color: var(--purple-800); font-size: 13px; font-weight: 700; }
 .pub-year { display: inline-block; margin-right: 7px; padding: 3px 7px; color: var(--purple-800); background: var(--purple-50); border: 1px solid var(--purple-200); border-radius: 999px; font-size: 10px; font-weight: 700; letter-spacing: .03em; line-height: 1.35; vertical-align: .12em; }
 .pub-link { display: inline-flex; align-items: center; gap: 4px; margin: 5px 0 0 6px; white-space: nowrap; font-size: 12px; font-weight: 700; text-decoration: none; vertical-align: middle; }
 .pub-link svg { width: 14px; height: 14px; }
@@ -276,6 +284,9 @@ footer svg { width: 15px; height: 15px; }
   body, button, input, textarea, select { font-family: "Comic Neue Web", "Comic Sans MS", "Comic Sans", system-ui, sans-serif !important; }
   .publication-figure { margin-bottom: 14px; }
   .publication-figure img { height: 145px; }
+  .publication-card { grid-template-columns: 1fr; gap: 13px; padding: 14px; }
+  .publication-card .publication-figure img { height: 145px; }
+  .publication-copy h3 { font-size: 17px; }
   .experience-item { grid-template-columns: 36px minmax(0, 1fr); gap: 11px; }
   .experience-logo { width: 36px; height: 36px; padding: 4px; border-radius: 11px; }
   .news-item { grid-template-columns: 1fr; gap: 3px; padding: 14px 15px; }
