@@ -17,6 +17,9 @@
   --max-width: 1180px;
 }
 
+@font-face { font-family: "Comic Neue Web"; src: url("assets/fonts/comic-neue-regular.woff2") format("woff2"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: "Comic Neue Web"; src: url("assets/fonts/comic-neue-bold.woff2") format("woff2"); font-style: normal; font-weight: 700; font-display: swap; }
+
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body {
@@ -25,11 +28,11 @@ body {
   overflow-x: hidden;
   color: var(--ink);
   background: var(--surface);
-  font-family: "Comic Sans MS", "Comic Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: "Comic Neue Web", "Comic Sans MS", "Comic Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-size: 15.5px;
   line-height: 1.68;
 }
-body, body * { font-family: "Comic Sans MS", "Comic Sans", cursive !important; }
+body, body * { font-family: "Comic Neue Web", "Comic Sans MS", "Comic Sans", system-ui, sans-serif !important; }
 
 a { color: var(--purple-700); text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
 a:hover { color: var(--purple-950); }
@@ -111,7 +114,7 @@ svg { width: 18px; height: 18px; stroke-width: 1.8; }
 }
 .portrait:hover { transform: translateY(-5px) rotate(1deg); box-shadow: 0 22px 46px rgba(59, 7, 100, .21); }
 .profile-kicker { margin: 0 0 8px; color: var(--purple-700); font-size: 11px; font-weight: 700; letter-spacing: .18em; }
-.profile h1 { margin: 0; color: var(--purple-900); font-family: "Comic Sans MS", "Comic Sans", cursive; font-size: 32px; line-height: 1.08; }
+.profile h1 { margin: 0; color: var(--purple-900); font-family: "Comic Neue Web", "Comic Sans MS", "Comic Sans", cursive; font-size: 32px; line-height: 1.08; }
 .name-cn { margin: 4px 0 15px; color: var(--muted); font-size: 14px; }
 .role { margin: 0; font-weight: 700; }
 .affiliation { max-width: 245px; margin: 4px auto 10px; color: var(--muted); font-size: 13px; line-height: 1.5; }
@@ -165,7 +168,7 @@ main { min-width: 0; }
 .news-item p { margin: 4px 0 0; color: var(--muted); font-size: 13.5px; line-height: 1.52; }
 
 section { margin-bottom: 60px; scroll-margin-top: 88px; }
-h2 { position: relative; display: inline-block; margin: 0 0 21px; color: var(--purple-900); font-family: "Comic Sans MS", "Comic Sans", cursive; font-size: 29px; line-height: 1.2; }
+h2 { position: relative; display: inline-block; margin: 0 0 21px; color: var(--purple-900); font-family: "Comic Neue Web", "Comic Sans MS", "Comic Sans", cursive; font-size: 29px; line-height: 1.2; }
 h2::after { position: absolute; bottom: -6px; left: 0; width: 46%; height: 3px; content: ""; background: linear-gradient(90deg, var(--purple-600), var(--purple-300, #c4b5fd)); border-radius: 99px; }
 h3 { margin: 0; font-size: 16px; line-height: 1.42; }
 p { margin: 0 0 14px; }
@@ -270,7 +273,7 @@ footer svg { width: 15px; height: 15px; }
   .timeline::before { left: 24px; }
   .timeline-item img { width: 51px; height: 51px; padding: 6px; }
   .experience-item, .project-item, .open-source-card { padding: 16px; border-radius: 15px; }
-  body, button, input, textarea, select { font-family: "Comic Sans MS", "Comic Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  body, button, input, textarea, select { font-family: "Comic Neue Web", "Comic Sans MS", "Comic Sans", system-ui, sans-serif !important; }
   .publication-figure { margin-bottom: 14px; }
   .publication-figure img { height: 145px; }
   .experience-item { grid-template-columns: 36px minmax(0, 1fr); gap: 11px; }
