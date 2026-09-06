@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-labelledby="title desc">
+  <title id="title">BMW logo</title>
+  <desc id="desc">Blue and white quartered BMW roundel</desc>
+  <circle cx="50" cy="50" r="47" fill="#111827"/>
+  <circle cx="50" cy="50" r="38" fill="#f7f7fb"/>
+  <path d="M50 12a38 38 0 0 1 38 38H50z" fill="#2563eb"/>
+  <path d="M88 50a38 38 0 0 1-38 38V50z" fill="#2563eb"/>
+  <circle cx="50" cy="50" r="38" fill="none" stroke="#d1d5db" stroke-width="2"/>
+  <circle cx="50" cy="50" r="47" fill="none" stroke="#9ca3af" stroke-width="2"/>
+  <text x="50" y="9" fill="#fff" font-family="Arial, sans-serif" font-size="9" font-weight="700" text-anchor="middle" letter-spacing="1">BMW</text>
+</svg>
