@@ -40,6 +40,45 @@ if ("IntersectionObserver" in window) {
 
 setActiveLink(location.hash ? location.hash.slice(1) : sections[0]?.id);
 
+// Lightweight spatial polish for desktop pointers; touch devices remain still and clean.
+const canUsePointer = window.matchMedia?.("(hover: hover) and (pointer: fine)").matches;
+if (canUsePointer && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  const glow = document.createElement("div");
+  glow.className = "pointer-glow";
+  glow.setAttribute("aria-hidden", "true");
+  document.body.append(glow);
+  let pointerFrame = 0;
+  let pointerX = 0;
+  let pointerY = 0;
+  const interactiveCards = [...document.querySelectorAll("main > section, .publication-card, .experience-item, .project-item, .study-item")];
+  const paintPointer = () => {
+    pointerFrame = 0;
+    glow.style.left = `${pointerX}px`;
+    glow.style.top = `${pointerY}px`;
+    interactiveCards.forEach((card) => {
+      const rect = card.getBoundingClientRect();
+      if (pointerX >= rect.left && pointerX <= rect.right && pointerY >= rect.top && pointerY <= rect.bottom) {
+        card.style.setProperty("--spot-x", `${pointerX - rect.left}px`);
+        card.style.setProperty("--spot-y", `${pointerY - rect.top}px`);
+      }
+    });
+  };
+  window.addEventListener("pointermove", (event) => {
+    pointerX = event.clientX;
+    pointerY = event.clientY;
+    document.body.classList.add("has-pointer");
+    if (!pointerFrame) pointerFrame = requestAnimationFrame(paintPointer);
+  }, { passive: true });
+  window.addEventListener("pointerleave", () => document.body.classList.remove("has-pointer"));
+}
+
+const updateScrollProgress = () => {
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  document.documentElement.style.setProperty("--scroll-progress", max > 0 ? `${window.scrollY / max}` : "0");
+};
+updateScrollProgress();
+window.addEventListener("scroll", updateScrollProgress, { passive: true });
+
 const qrWrapper = document.querySelector(".social-shortcuts");
 const qrPopover = document.getElementById("social-qr-popover");
 const qrImage = document.getElementById("social-qr-image");
