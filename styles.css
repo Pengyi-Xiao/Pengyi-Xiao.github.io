@@ -410,3 +410,18 @@ h2::after { bottom: -7px; background: linear-gradient(90deg, var(--purple-600), 
   .news-item::before { border-color: #28222f; }
   .ambient-grid { opacity: .08; }
 }
+
+/* Quiet, spatial micro-interactions. The glow only follows a real pointer. */
+.pointer-glow { position: fixed; z-index: 0; width: 280px; height: 280px; pointer-events: none; border-radius: 50%; opacity: 0; background: radial-gradient(circle, rgba(167, 139, 250, .16), rgba(167, 139, 250, 0) 68%); transform: translate(-50%, -50%); transition: opacity .35s ease; }
+.has-pointer .pointer-glow { opacity: 1; }
+body::after { position: fixed; top: 0; right: 0; left: 0; z-index: 30; height: 2px; content: ""; pointer-events: none; background: linear-gradient(90deg, var(--purple-400), var(--purple-700)); transform: scaleX(var(--scroll-progress, 0)); transform-origin: left center; box-shadow: 0 0 12px rgba(124, 58, 237, .55); }
+@media (hover: hover) and (pointer: fine) {
+  main > section, .profile, .publication-card, .experience-item, .project-item, .study-item { --spot-x: 50%; --spot-y: 0%; }
+  main > section::after, .profile::marker { content: ""; }
+  main > section::after { position: absolute; inset: 0; pointer-events: none; border-radius: inherit; background: radial-gradient(220px circle at var(--spot-x) var(--spot-y), rgba(255, 255, 255, .42), transparent 68%); opacity: 0; transition: opacity .35s ease; }
+  main > section:hover::after { opacity: 1; }
+  .publication-card, .experience-item, .project-item, .study-item { transition-property: transform, box-shadow, border-color; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pointer-glow, body::after { display: none; }
+}
