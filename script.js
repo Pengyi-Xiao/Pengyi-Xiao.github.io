@@ -79,6 +79,80 @@ const updateScrollProgress = () => {
 updateScrollProgress();
 window.addEventListener("scroll", updateScrollProgress, { passive: true });
 
+const waveCanvas = document.getElementById("particle-wave");
+if (waveCanvas) {
+  const context = waveCanvas.getContext("2d", { alpha: true });
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let waveWidth = 0;
+  let waveHeight = 0;
+  let waveFrame = 0;
+  let lastWavePaint = 0;
+
+  const sizeWave = () => {
+    const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
+    waveWidth = window.innerWidth;
+    waveHeight = window.innerHeight;
+    waveCanvas.width = Math.round(waveWidth * ratio);
+    waveCanvas.height = Math.round(waveHeight * ratio);
+    context.setTransform(ratio, 0, 0, ratio, 0, 0);
+  };
+
+  const paintWaveLayer = (time, options) => {
+    const mobile = waveWidth < 680;
+    const columnGap = mobile ? 22 : 17;
+    const rows = mobile ? 13 : 19;
+    const columns = Math.ceil(waveWidth / columnGap) + 5;
+    const scrollPhase = window.scrollY * .0015;
+
+    for (let row = 0; row < rows; row += 1) {
+      const depth = row / Math.max(rows - 1, 1);
+      const perspective = .7 + depth * .72;
+      const baseY = waveHeight * options.anchor + row * (mobile ? 11 : 13) * perspective;
+      for (let column = -2; column < columns; column += 1) {
+        const x = column * columnGap + Math.sin(row * .58 + time * .00022) * 15;
+        const broadWave = Math.sin(x * .0051 + time * options.speed + row * .38 + scrollPhase) * options.amplitude;
+        const fineWave = Math.cos(x * .009 - time * .00019 + row * .64) * options.amplitude * .28;
+        const y = baseY + (broadWave + fineWave) * (1 - depth * .2);
+        const edgeFade = Math.min(1, Math.max(0, x / 90), Math.max(0, (waveWidth - x) / 90));
+        const radius = (.85 + depth * .72) * options.scale;
+        context.globalAlpha = options.alpha * (.55 + depth * .45) * edgeFade;
+        context.beginPath();
+        context.arc(x, y, radius, 0, Math.PI * 2);
+        context.fill();
+      }
+    }
+  };
+
+  const paintWave = (time = 0) => {
+    context.clearRect(0, 0, waveWidth, waveHeight);
+    context.fillStyle = "#a78bfa";
+    paintWaveLayer(time, { anchor: .52, amplitude: 48, speed: .00034, alpha: .28, scale: .78 });
+    context.fillStyle = "#7c3aed";
+    paintWaveLayer(time + 1450, { anchor: .63, amplitude: 62, speed: -.00029, alpha: .58, scale: 1 });
+  };
+
+  const animateWave = (time) => {
+    if (time - lastWavePaint > 32) {
+      paintWave(time);
+      lastWavePaint = time;
+    }
+    waveFrame = requestAnimationFrame(animateWave);
+  };
+
+  sizeWave();
+  paintWave();
+  if (!reduceMotion) waveFrame = requestAnimationFrame(animateWave);
+  window.addEventListener("resize", () => {
+    sizeWave();
+    paintWave(lastWavePaint);
+  }, { passive: true });
+  document.addEventListener("visibilitychange", () => {
+    if (reduceMotion) return;
+    if (document.hidden) cancelAnimationFrame(waveFrame);
+    else waveFrame = requestAnimationFrame(animateWave);
+  });
+}
+
 const qrWrapper = document.querySelector(".social-shortcuts");
 const qrPopover = document.getElementById("social-qr-popover");
 const qrImage = document.getElementById("social-qr-image");
