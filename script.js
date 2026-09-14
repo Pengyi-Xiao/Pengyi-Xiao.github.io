@@ -125,10 +125,10 @@ if (waveCanvas) {
 
   const paintWave = (time = 0) => {
     context.clearRect(0, 0, waveWidth, waveHeight);
-    context.fillStyle = "#a78bfa";
-    paintWaveLayer(time, { anchor: .52, amplitude: 48, speed: .00034, alpha: .28, scale: .78 });
-    context.fillStyle = "#7c3aed";
-    paintWaveLayer(time + 1450, { anchor: .63, amplitude: 62, speed: -.00029, alpha: .58, scale: 1 });
+    context.fillStyle = "#8b5cf6";
+    paintWaveLayer(time, { anchor: .52, amplitude: 48, speed: .00034, alpha: .4, scale: 1.05 });
+    context.fillStyle = "#6d28d9";
+    paintWaveLayer(time + 1450, { anchor: .63, amplitude: 62, speed: -.00029, alpha: .76, scale: 1.38 });
   };
 
   const animateWave = (time) => {
