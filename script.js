@@ -79,6 +79,18 @@ const updateScrollProgress = () => {
 updateScrollProgress();
 window.addEventListener("scroll", updateScrollProgress, { passive: true });
 
+const newsToggle = document.querySelector(".news-toggle");
+const newsList = document.getElementById("news-list");
+if (newsToggle && newsList) {
+  const newsLabel = newsToggle.querySelector(".news-toggle-label");
+  newsToggle.addEventListener("click", () => {
+    const expanded = newsToggle.getAttribute("aria-expanded") === "true";
+    newsToggle.setAttribute("aria-expanded", String(!expanded));
+    newsList.classList.toggle("is-collapsed", expanded);
+    if (newsLabel) newsLabel.textContent = expanded ? "Show all news" : "Collapse news";
+  });
+}
+
 const waveCanvas = document.getElementById("particle-wave");
 if (waveCanvas) {
   const context = waveCanvas.getContext("2d", { alpha: true });
