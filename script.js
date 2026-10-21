@@ -7,19 +7,71 @@ if (window.lucide) {
   window.lucide.createIcons();
 }
 
-const sectionLinks = [...document.querySelectorAll(".section-nav a")];
-const sections = sectionLinks
-  .map((link) => document.querySelector(link.getAttribute("href")))
-  .filter(Boolean);
+const pageTabs = [...document.querySelectorAll(".page-nav [data-page]")];
+const pagePanels = [...document.querySelectorAll("[data-page-panel]")];
+let activePanel;
+let sectionObserver;
 
 const setActiveLink = (id) => {
-  sectionLinks.forEach((link) => {
-    const active = link.getAttribute("href") === `#${id}`;
+  const links = activePanel ? [...activePanel.querySelectorAll(".section-nav a")] : [];
+  links.forEach((link) => {
+    const active = link.hash === `#${id}`;
     link.classList.toggle("is-active", active);
-    if (active) link.setAttribute("aria-current", "page");
+    if (active) link.setAttribute("aria-current", "location");
     else link.removeAttribute("aria-current");
   });
 };
+
+const activatePage = (name, { updateHash = false, scrollTop = false } = {}) => {
+  const panel = pagePanels.find((candidate) => candidate.dataset.pagePanel === name) || pagePanels[0];
+  if (!panel) return;
+  activePanel = panel;
+  pagePanels.forEach((candidate) => { candidate.hidden = candidate !== panel; });
+  pageTabs.forEach((tab) => {
+    const active = tab.dataset.page === panel.dataset.pagePanel;
+    tab.setAttribute("aria-selected", String(active));
+    tab.tabIndex = active ? 0 : -1;
+  });
+
+  if (sectionObserver) sectionObserver.disconnect();
+  const links = [...panel.querySelectorAll(".section-nav a")];
+  const sections = links.map((link) => document.getElementById(link.hash.slice(1))).filter(Boolean);
+  if ("IntersectionObserver" in window) {
+    sectionObserver = new IntersectionObserver((entries) => {
+      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible) setActiveLink(visible.target.id);
+    }, { rootMargin: "-18% 0px -66% 0px", threshold: [0.05, 0.2, 0.5] });
+    sections.forEach((section) => sectionObserver.observe(section));
+  }
+
+  if (updateHash) history.pushState(null, "", `#${panel.dataset.pagePanel}`);
+  if (scrollTop) document.querySelector(".page-nav")?.scrollIntoView({ behavior: "smooth", block: "start" });
+};
+
+const routeFromHash = () => {
+  const key = decodeURIComponent(location.hash.slice(1));
+  const target = key ? document.getElementById(key) : null;
+  const targetPanel = target?.closest("[data-page-panel]");
+  const pageName = targetPanel?.dataset.pagePanel || (pagePanels.some((panel) => panel.dataset.pagePanel === key) ? key : activePanel?.dataset.pagePanel || "about");
+  activatePage(pageName);
+  if (targetPanel && target?.tagName === "SECTION") {
+    setActiveLink(target.id);
+    requestAnimationFrame(() => target.scrollIntoView({ block: "start" }));
+  }
+};
+
+pageTabs.forEach((tab, index) => {
+  tab.addEventListener("click", () => activatePage(tab.dataset.page, { updateHash: true, scrollTop: true }));
+  tab.addEventListener("keydown", (event) => {
+    if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+    event.preventDefault();
+    const nextIndex = event.key === "Home" ? 0 : event.key === "End" ? pageTabs.length - 1 : (index + (event.key === "ArrowRight" ? 1 : -1) + pageTabs.length) % pageTabs.length;
+    pageTabs[nextIndex].focus();
+    pageTabs[nextIndex].click();
+  });
+});
+window.addEventListener("hashchange", routeFromHash);
+routeFromHash();
 
 if ("IntersectionObserver" in window) {
   const revealObserver = new IntersectionObserver((entries) => {
@@ -50,7 +102,7 @@ if (canUsePointer && !window.matchMedia("(prefers-reduced-motion: reduce)").matc
   let pointerFrame = 0;
   let pointerX = 0;
   let pointerY = 0;
-  const interactiveCards = [...document.querySelectorAll("main > section, .publication-card, .experience-item, .project-item, .study-item")];
+  const interactiveCards = [...document.querySelectorAll(".page-panel > section, .publication-card, .experience-item, .project-item, .study-item")];
   const paintPointer = () => {
     pointerFrame = 0;
     glow.style.left = `${pointerX}px`;
