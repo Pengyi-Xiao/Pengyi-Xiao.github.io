@@ -54,7 +54,7 @@ const routeFromHash = () => {
   const targetPanel = target?.closest("[data-page-panel]");
   const pageName = targetPanel?.dataset.pagePanel || (pagePanels.some((panel) => panel.dataset.pagePanel === key) ? key : activePanel?.dataset.pagePanel || "about");
   activatePage(pageName);
-  if (targetPanel && target?.tagName === "SECTION") {
+  if (targetPanel && target !== targetPanel) {
     setActiveLink(target.id);
     requestAnimationFrame(() => target.scrollIntoView({ block: "start" }));
   }
@@ -80,17 +80,12 @@ if ("IntersectionObserver" in window) {
     });
   }, { threshold: 0.08 });
   document.querySelectorAll(".reveal").forEach((element) => revealObserver.observe(element));
-
-  const sectionObserver = new IntersectionObserver((entries) => {
-    const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-    if (visible) setActiveLink(visible.target.id);
-  }, { rootMargin: "-18% 0px -66% 0px", threshold: [0.05, 0.2, 0.5] });
-  sections.forEach((section) => sectionObserver.observe(section));
 } else {
   document.querySelectorAll(".reveal").forEach((element) => element.classList.add("is-visible"));
 }
 
-setActiveLink(location.hash ? location.hash.slice(1) : sections[0]?.id);
+const firstSectionLink = activePanel?.querySelector(".section-nav a");
+setActiveLink(location.hash ? location.hash.slice(1) : firstSectionLink?.hash.slice(1));
 
 // Lightweight spatial polish for desktop pointers; touch devices remain still and clean.
 const canUsePointer = window.matchMedia?.("(hover: hover) and (pointer: fine)").matches;
